@@ -13,9 +13,10 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float drunk = 1f;
 
-    private float drunkSway = 0.1f;
+    private float drunkSway = 0f;
     [SerializeField]
     private float swayRange = 1f;
+    [SerializeField]
     private float swayFrequency = 1f;
 
     private enum Inputs
@@ -35,18 +36,24 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Get the input direction.
         movement.Set(InputManager.movement.x, InputManager.movement.y);
-        
+
+        //Gets the last input.
         GetlastInput(ref lastInput);
 
+        
         drunkSway = swayRange * Mathf.Sin(Time.time * swayFrequency);
 
+        print(drunkSway);
 
+        //Moves the player based on velocity.
         rb.velocity = movement * moveSpeed;
 
 
         if (drunk > 0f)
         {
+            //Adds the drunksway to either the x or y axis depending on the direction of the last input.
             if (lastInput == Inputs.Up || lastInput == Inputs.Down) 
             {
                 Vector2 currentVelocity = rb.velocity;
@@ -69,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
 
     Inputs GetlastInput(ref Inputs lastInput)
     {
-
+        //Checks the vector2 of the newest input and determines the direction.
         if (InputManager.movement.y == 1f && InputManager.movement.x == 0)
         {
             lastInput = Inputs.Up;
