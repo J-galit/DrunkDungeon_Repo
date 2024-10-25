@@ -11,7 +11,12 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    [SerializeField] private float drunk = 0f;
+    [SerializeField] private float drunk = 1f;
+
+    private float drunkSway = 0.1f;
+    [SerializeField]
+    private float swayRange = 1f;
+    private float swayFrequency = 1f;
 
     private enum Inputs
     {
@@ -32,14 +37,33 @@ public class PlayerMovement : MonoBehaviour
     {
         movement.Set(InputManager.movement.x, InputManager.movement.y);
         
-        print(GetlastInput(ref lastInput));
+        GetlastInput(ref lastInput);
 
-       
-       
+        drunkSway = swayRange * Mathf.Sin(Time.time * swayFrequency);
+
 
         rb.velocity = movement * moveSpeed;
 
+
+        if (drunk > 0f)
+        {
+            if (lastInput == Inputs.Up || lastInput == Inputs.Down) 
+            {
+                Vector2 currentVelocity = rb.velocity;
+                currentVelocity.x += drunkSway;
+                rb.velocity = currentVelocity;
+            }
+            else if (lastInput == Inputs.Right || lastInput == Inputs.Left)
+            {
+                Vector2 currentVelocity = rb.velocity;
+                currentVelocity.y += drunkSway;
+                rb.velocity = currentVelocity;
+
+            }
+        }
+
         
+
     }
 
 

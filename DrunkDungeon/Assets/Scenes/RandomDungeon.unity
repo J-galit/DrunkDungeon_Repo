@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  drunk: 0
+  drunk: 2
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
