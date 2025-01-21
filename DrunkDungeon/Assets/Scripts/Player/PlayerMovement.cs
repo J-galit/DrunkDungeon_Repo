@@ -44,13 +44,33 @@ public class PlayerMovement : MonoBehaviour
         //Gets the last input.
         GetlastInput(ref lastInput);
 
-        
+
         drunkSway = swayRange * Mathf.Sin(Time.time * swayFrequency);
 
         //print(drunkSway);
 
-        //Moves the player based on velocity.
         rb.velocity = movement * moveSpeed;
+
+        if (drunk > 0f)
+        {
+            //Adds the drunksway to either the x or y axis depending on the direction of the last input.
+            if (lastInput == Inputs.Up || lastInput == Inputs.Down)
+            {
+                Vector2 currentVelocity = rb.velocity;
+                currentVelocity.x += drunkSway;
+                rb.velocity = currentVelocity;
+            }
+            else if (lastInput == Inputs.Right || lastInput == Inputs.Left)
+            {
+                Vector2 currentVelocity = rb.velocity;
+                currentVelocity.y += drunkSway;
+                rb.velocity = currentVelocity;
+
+            }
+        }
+
+        //Moves the player based on velocity.
+        
         
         if (lastInput == Inputs.Up) 
         {
@@ -67,30 +87,9 @@ public class PlayerMovement : MonoBehaviour
         else if(lastInput == Inputs.Left)
         {
             animator.SetInteger("Direction", 1);
-            animator.SetBool("FlipWalk", true);
+            
         }
-
-
-        if (drunk > 0f)
-        {
-            //Adds the drunksway to either the x or y axis depending on the direction of the last input.
-            if (lastInput == Inputs.Up || lastInput == Inputs.Down) 
-            {
-                Vector2 currentVelocity = rb.velocity;
-                currentVelocity.x += drunkSway;
-                rb.velocity = currentVelocity;
-            }
-            else if (lastInput == Inputs.Right || lastInput == Inputs.Left)
-            {
-                Vector2 currentVelocity = rb.velocity;
-                currentVelocity.y += drunkSway;
-                rb.velocity = currentVelocity;
-
-            }
-        }
-
-        
-
+       
     }
 
 
