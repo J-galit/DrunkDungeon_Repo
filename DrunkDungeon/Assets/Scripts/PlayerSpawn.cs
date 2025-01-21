@@ -11,6 +11,7 @@ public class PlayerSpawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Instantiate(player);
         player.GetComponent<Transform>().position = transform.position;
        
     }
